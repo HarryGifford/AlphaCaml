@@ -1,0 +1,34 @@
+SUMMARY
+
+A step-by-step evaluator for a call-by-value calculus of mixins,
+known as MM, due to Hirschowitz, Leroy, and Wells. The definition
+of MM can be found in `Call-by-Value Mixin Modules -- Reduction
+Semantics, Side Effects, Types', in ESOP'04.
+
+  http://pauillac.inria.fr/~xleroy/publi/mixins-mm-esop2004.ps.gz
+
+SAMPLE COMMAND LINE
+
+       make
+       ./mm < test/test9.mm
+
+INTERESTING FILES
+
+mm.mla		Abstract syntax for MM types and terms.
+
+parser.mly	A parser and pretty-printer for our concrete syntax.
+printer.ml	Nothing particular going on here -- these modules
+		manipulate raw syntax, where names are just strings.
+
+core.ml		The evaluator.
+		Illustrates how to build and take apart terms that
+		contain abstract names. The definition of mixin
+		composition is particularly interesting: one of
+		the operands is manually renamed so as to ensure
+		that the two structures agree on their internal
+		names.
+
+main.ml		Puts everything together.
+		Illustrates how to convert back and forth between
+		raw syntax and internal syntax.
+

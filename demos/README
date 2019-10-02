@@ -1,0 +1,16 @@
+These demos are intended to illustrate the use of alphaCaml. They are not very
+useful or very polished. They have not been seriously tested and probably
+contain bugs. Suggestions for improvement are welcome.
+
+The demos are:
+
+lambda/
+	Not a full demo. Only a sample signature file for an untyped
+	lambda-calculus.
+
+poplmark/
+	A typechecker and evaluator for core System Fsub with records.
+
+mixins/
+	A step-by-step evaluator for a calculus of mixin modules.
+

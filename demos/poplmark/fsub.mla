@@ -1,0 +1,74 @@
+[
+
+open Strings
+
+]
+
+container StringMap.t with StringMap.map and StringMap.foldv and StringMap.foldv2
+
+(* Types. *)
+
+sort type_var                                     (* type variables *)
+
+type type_expr =                                  (* types *)
+  | TVar of atom type_var                         (* variable *)
+  | TTop                                          (* top *)
+  | TArrow of type_expr * type_expr               (* function type *)
+  | TForall of < type_type_abs >                  (* universal type *)
+  | TRecord of type_expr StringMap.t              (* record type *)
+
+type type_type_abs binds type_var =
+    atom type_var     * (* the type variable that is being bound *)
+    outer type_expr   * (* the type that forms its upper bound, in the sense of F-sub *)
+    inner type_expr     (* the type that forms the body -- the scope -- of the universal quantifier *)
+
+(* Terms. *)
+
+sort term_var                                     (* term variables *)
+
+type term_expr =                                  (* terms *)
+  | EVar of atom term_var                         (* variable *)
+  | EAbs of < term_term_abs >                     (* lambda-abstraction *)
+  | EApp of term_expr * term_expr                 (* term application *)
+  | ETyAbs of < type_term_abs >                   (* Lambda-abstraction *)
+  | ETyApp of term_expr * type_expr               (* type application *)
+  | ERecord of term_expr StringMap.t              (* record term *)
+  | EProj of term_expr * [ string ]               (* record projection *)
+  | ELet of < pat_term_abs >                      (* let definition *)
+
+type pattern binds term_var =                     (* patterns *)
+  | PWildcard                                     (* wildcard pattern *)
+  | PVar of atom term_var * neutral type_expr     (* variable pattern *)
+  | PRecord of pattern StringMap.t                (* record pattern *)
+
+type term_term_abs binds term_var =
+    atom term_var     * (* the term variable that is being bound *)
+    neutral type_expr * (* the type that annotates it, as in every explicitly typed lambda-calculus *)
+    inner term_expr     (* the term that forms the body -- the scope -- of the lambda-abstraction *)
+
+type type_term_abs binds type_var =
+    atom type_var     * (* the type variable that is being bound *)
+    outer type_expr   * (* the type that forms its upper bound, in the sense of F-sub *)
+    inner term_expr     (* the term that forms the body -- the scope -- of the Lambda-abstraction *)
+
+type pat_term_abs binds term_var =
+    pattern           * (* the pattern that describes what is being bound *)
+    outer term_expr   * (* the term that is to be matched against this pattern *)
+    inner term_expr     (* the term that forms the body -- the scope -- of the let-definition *)
+
+type toplevel =                                    (* A list of toplevel commands *)
+  | TopEOF                                         (* End of file *)
+  | TopEval of term_expr * toplevel                (* A term that should be typechecked and evaluated *)
+  | TopTermBind of < term_top_abs >                (* A term variable that should be brought in context *)
+  | TopTypeBind of < type_top_abs >                (* A type variable that should be brought in context *)
+
+type term_top_abs binds term_var =
+    atom term_var     * (* the term variable that is being bound *)
+    neutral type_expr * (* the type that annotates it, as in every explicitly typed lambda-calculus *)
+    inner toplevel      (* the rest of the toplevel commands *)
+
+type type_top_abs binds type_var =
+    atom type_var     * (* the type variable that is being bound *)
+    outer type_expr   * (* the type that forms its upper bound, in the sense of F-sub *)
+    inner toplevel      (* the rest of the toplevel commands *)
+

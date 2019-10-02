@@ -1,0 +1,34 @@
+sort var
+
+type expression =
+  | EVar of atom var
+  | ELambda of < lambda >
+  | EApp of expression * expression
+  | EPair of expression * expression
+  | EInj of [ int ] * expression
+  | ECase of expression * branch list
+  | ELetRec of < letrec >
+
+type lambda binds var =
+    atom var * inner expression
+
+type branch =
+    < clause >
+
+type clause binds var =
+    pattern * inner expression
+
+type letrec binds var =
+    binding list * inner expression
+
+type binding binds var =
+    pattern * inner expression
+
+type pattern binds var =
+  | PWildcard
+  | PVar of atom var
+  | PPair of pattern * pattern
+  | PInj of [ int ] * pattern
+  | PAnd of pattern * pattern
+  | POr of pattern * pattern
+

@@ -1,0 +1,65 @@
+[
+
+open Strings
+
+(* Keys are used to keep track of the syntactic ordering of
+   definitions, which influences the dynamic semantics, without
+   forcing us to store them in ordered lists. *)
+
+type key =
+  | KStructMember of int
+  | KComposeLeft of key
+  | KComposeRight of key
+
+]
+
+container StringMap.t with StringMap.map and StringMap.foldv and StringMap.foldv2
+
+(* These declarations reflect the syntax of MM, as defined in
+   Hirschowitz, Leroy, Wells, ``Call-by-Value Mixin Modules'',
+   ESOP 2004. *)
+
+sort var
+
+type expression =
+  | EVar of atom var                                           (* Variable *)
+  | ERecord of expression StringMap.t                          (* Record *)
+  | ERecordSelection of expression * [ string ]                (* Record field access *)
+  | EStructure of < structure >                                (* Mixin *)
+  | EComposition of expression * expression                    (* Mixin composition *)
+  | EClose of expression                                       (* Closure operation *)
+  | EDeletion of expression * [ StringSet.t ]                  (* Field deletion *)
+  | EFakeDependency of expression * [ string ] * [ string ]    (* Fake dependency between two structure fields *)
+  | ELetRec of < letrec >                                      (* Recursive definition *)
+
+type structure binds var =
+    input *                                                    (* The structure's input components *)
+    output                                                     (* The structure's output components *)
+
+type input binds var =
+    binder StringMap.t                                         (* A mapping of field names to variables *)
+
+type binder binds var =
+    atom var
+
+type output binds var =
+    definition StringMap.t *                                   (* A set of named definitions *)
+    definition list                                            (* A set of anonymous definitions *)
+
+type definition binds var =
+    inner dependency list *                                    (* The variables that this definition depends upon *)
+    atom var *                                                 (* The variable that this definition binds *)
+    inner expression *                                         (* The expression to which it is bound *)
+    [ key ]                                                    (* A key that reflects the definitions' ordering *)
+
+type dependency =
+    atom var
+
+type letrec binds var =
+    binding list *                                             (* The recursive bindings *)
+    inner expression                                           (* The expression that lies in their scope *)
+
+type binding binds var =
+    atom var *                                                 (* A variable that is being bound *)
+    inner expression                                           (* The expression to which it is bound *)
+

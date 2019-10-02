@@ -1,0 +1,59 @@
+20061014:
+Incompatible change: there is now one distinct [UnboundIdentifier] exception
+per atom sort.
+
+20061003:
+Added [AtomSet.remove] and [AtomMap.remove].
+Added [AtomSet.iterator] and [AtomMap.iterator].
+Added [AtomSet.print] and [AtomMap.print].
+Added [AtomMap.domain].
+
+20060927:
+Added [AtomMap.mem].
+
+20060922:
+New function at every type: "equal".
+New function at every abstraction type: "open2".
+The syntax of the "container" declaration changes -- it now requires
+fold2 in addition to map and fold.
+
+20060920:
+New functions at every type: "flatten" and "unflatten".
+
+20060915:
+Fixed a bug in the code generator that caused incorrect computation
+of sets of free atoms.
+Modified the code generator in order to avoid warnings about unused
+variables in the generated code.
+Performance improvements in [Patricia], [AtomSet], [AtomMap].
+
+20060906:
+Various changes in [Patricia], [GSet] and [GMap] so as to bring
+these modules up to sync with their counterparts in Menhir.
+Sped up an assertion in [AtomIdMap.add].
+
+20060522:
+Added [cardinal] and [choose] in [AtomSet] and [AtomMap].
+Added [AtomSet.element].
+Added [AtomSet.compare].
+
+20060511:
+Added [AtomMap.strict_add] and [AtomMap.mapi].
+
+20060504:
+Changed the default renaming scheme in [Atom.String]. The
+new scheme should make renamings slightly less frequent
+and more obvious.
+
+20060421:
+Added AtomMapId.iter and AtomMapId.fold.
+
+20060419:
+Added AtomMap.iter and AtomMap.fold.
+Added find as a synonym for lookup.
+
+20051129:
+Updated library/Makefile for compatibility with ocaml 3.09.
+
+20050609:
+Initial release.

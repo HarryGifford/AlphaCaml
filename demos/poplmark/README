@@ -1,0 +1,31 @@
+SUMMARY
+
+An evaluator and typechecker for System Fsub, as presented in the POPLmark
+challenge. The code is inspired from the preliminary Fsub interpreter that has
+been made available by the POPLmark team, but uses an alphaCaml description
+instead of de Bruijn indices.
+
+  http://www.cis.upenn.edu/group/proj/plclub/mmm/
+
+SAMPLE COMMAND LINE
+
+       make
+       ./fsub < test/test1.f
+
+INTERESTING FILES
+
+fsub.mla	Abstract syntax for Fsub types and terms.
+
+parser.mly	A parser and pretty-printer for our concrete syntax.
+printer.ml	Nothing particular going on here -- these modules
+		manipulate raw syntax, where names are just strings.
+
+core.ml		The typechecker and evaluator.
+		Illustrates how to define substitution over
+		types and over terms, and how to build and take
+		apart terms that contain abstract names.
+
+main.ml		Puts everything together.
+		Illustrates how to convert back and forth between
+		raw syntax and internal syntax.
+

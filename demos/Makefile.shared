@@ -1,0 +1,63 @@
+.PHONY: all clean
+
+# This Makefile requires alphaLib to have been installed via ocamlfind. If so
+# desired, this requirement could be removed by directly using our master copy
+# of the library in ../../library. Still, this method has more pedagogical
+# value, since it illustrates the normal way of using alphaLib.
+
+# Similarly, we assume that alphaCaml has been installed and is available in
+# the PATH.
+
+ALPHACAML   := alphaCaml
+CAMLC       := ocamlfind ocamlc -g -package alphaLib
+CAMLOPT     := ocamlfind ocamlopt  -package alphaLib
+CAMLDEP     := ocamlfind ocamldep
+CAMLLEX     := ocamllex
+CAMLYACC    := ocamlyacc
+OBJECTS      = $(MODULES:=.cmo)
+XBJECTS      = $(MODULES:=.cmx)
+
+all: $(EXECUTABLE) $(EXECUTABLE).opt
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CAMLC) -o $(EXECUTABLE) -linkpkg $(OBJECTS)
+
+$(EXECUTABLE).opt: $(XBJECTS)
+	$(CAMLOPT) -o $(EXECUTABLE).opt -linkpkg $(XBJECTS)
+
+.depend: $(wildcard *.ml *.mli) $(GENERATED)
+	@/bin/rm -f $@
+	$(CAMLDEP) *.ml *.mli > $@
+
+ifneq ($(MAKECMDGOALS),clean)
+-include .depend
+endif
+
+clean:
+	/bin/rm -f $(EXECUTABLE) $(EXECUTABLE).opt $(GENERATED)
+	/bin/rm -f *.cmi *.cmx *.cmo *.ppo *.o *.obj *~ .*~
+	/bin/rm -f .depend
+
+%.cmi: %.mli
+	$(CAMLC) -c $<
+
+%.cmo: %.ml
+	$(CAMLC) -c $<
+
+%.cmx %.o: %.ml
+	$(CAMLOPT) -c $<
+
+%.ml %.mli: %.mly
+	@/bin/rm -f $*.ml $*.mli
+	$(CAMLYACC) $<
+	@/bin/chmod -w $*.ml $*.mli
+
+%.ml: %.mll
+	@/bin/rm -f $@
+	$(CAMLLEX) $<
+	@/bin/chmod -w $@
+
+%.ml %.mli: %.mla
+	@/bin/rm -f $*.ml $*.mli
+	$(ALPHACAML) $<
+	@/bin/chmod -w $*.ml $*.mli

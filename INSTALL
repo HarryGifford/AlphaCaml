@@ -1,0 +1,30 @@
+HOW TO INSTALL ALPHACAML
+
+There are two components to install: the tool (alphaCaml) and the library
+(alphaLib). Installation of the library requires Gerd Stolpmann's findlib
+to be installed.
+
+The installation steps are as follows:
+
+  1. Make sure findlib is installed on your system. (If it is, then the
+     command "ocamlfind" should be available and in the PATH.) If it is
+     not, download and install it.
+
+       http://www.ocaml-programming.de/packages/
+
+  2. (Need not run as root.) Compile the tool and the library.
+
+       make
+
+  3. (May need to run as root.) Install.
+     The tool is copied into $(PREFIX)/bin.
+     The library is installed via ocamlfind.
+     The documentation is copied into $(PREFIX)/doc/alphaCaml.
+
+       make PREFIX=/usr/local install
+
+  4. (Optional. Need not run as root.) Compile the demos. (This requires
+     step 3 to have succeeded.)
+
+       make demos
+
