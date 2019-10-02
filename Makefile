@@ -1,45 +1,22 @@
-.PHONY: all clean tool library demos
+# Modified from https://github.com/janestreet/incremental/blob/master/Makefile
 
-all: tool library
+INSTALL_ARGS := $(if $(PREFIX),--prefix $(PREFIX),)
 
-# Compiling alphaCaml.
-
-tool:
-	$(MAKE) -s -C tool $(MFLAGS)
-
-# Compiling alphaLib.
-
-library:
-	$(MAKE) -s -C library $(MFLAGS)
-
-# Compiling the demos. Requires the tool and library to have been installed.
-
-demos:
-	$(MAKE) -s -C demos $(MFLAGS)
-
-# Installation.
-
-DOC=alphaCaml.pdf
-
-install: tool library
-	$(MAKE) -s -C tool $(MFLAGS) $@
-	$(MAKE) -s -C library $(MFLAGS) $@
-	mkdir -p $(PREFIX)/doc/alphaCaml/
-	install $(DOC) $(PREFIX)/doc/alphaCaml/$(DOC)
-
-uninstall:
-	$(MAKE) -s -C tool $(MFLAGS) $@
-	$(MAKE) -s -C library $(MFLAGS) $@
-	/bin/rm -rf $(PREFIX)/doc/alphaCaml
-
-# Cleaning up.
+all:
+	dune build
 
 clean:
-	/bin/rm -f *~ .*~
-	$(MAKE) -s -C tool clean
-	$(MAKE) -s -C library clean
-	if [ -d test ] ; then $(MAKE) -s -C test/good clean ; fi
-	$(MAKE) -s -C demos clean
-	if [ -d paper ] ; then $(MAKE) -s -C paper clean ; fi
-	if [ -d doc ] ; then $(MAKE) -s -C doc clean ; fi
+	dune clean
 
+docs:
+	dune build @doc
+
+install:
+	dune install $(INSTALL_ARGS)
+
+reinstall: uninstall reinstall
+
+uninstall:
+	dune uninstall $(INSTALL_ARGS)
+
+.PHONY: all clean docs install reinstall uninstall

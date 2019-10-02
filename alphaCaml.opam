@@ -7,7 +7,7 @@ depends: [
   "ocaml" {> "4.03.0"}
   "ocamlfind"
 ]
-install: [make "install" "PREFIX=%{prefix}%"]
+install: [make "install"]
 synopsis:
   "Turns a so-called \"binding specification\" into an OCaml compilation unit"
 description: """

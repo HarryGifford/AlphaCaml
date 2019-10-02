@@ -1,0 +1,11 @@
+(executable
+ (name generator)
+ (package alphaCaml)
+ (public_name alphaCaml)
+ (flags (:standard -w +A -w -4 -w -8 -w -7 -w -6 -w -27 -w -29 -w -32 -w -40 -w -41 -w -42 -g)))
+
+(ocamllex
+ (modules lexer))
+
+(menhir
+ (modules parser))
