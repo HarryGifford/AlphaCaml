@@ -742,7 +742,7 @@ let () =
       (sprintf "The identifier \"%s\" is defined both as a type and as a field label." t) (* kind27.mla *)
   ) (StringSet.inter types labels);
   StringSet.iter (fun d ->
-    let t = String.lowercase d in
+    let t = String.lowercase_ascii d in
     if StringSet.mem t types then
       signal dataspace d (sprintf "The identifier \"%s\" is defined as a type and\n\
                                   the identifier \"%s\" as a data constructor.\n\

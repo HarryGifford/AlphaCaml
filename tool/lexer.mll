@@ -20,10 +20,10 @@
     let c = Error.get_file() in
     let p = pos_in c in
     seek_in c ofs1;
-    let buffer = String.create len in
+    let buffer = Bytes.create len in
     really_input c buffer 0 len;
     seek_in c p;
-    buffer
+    Bytes.to_string buffer
 
 }
 

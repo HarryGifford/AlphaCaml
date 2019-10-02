@@ -1,3 +1,6 @@
+20191001:
+Fix build to work with latest version of OCaml.
+
 20061014:
 Incompatible change: there is now one distinct [UnboundIdentifier] exception
 per atom sort.

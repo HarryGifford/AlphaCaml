@@ -16,11 +16,7 @@ module String = struct
 
   let mirror s =
     let n = String.length s in
-    let t = String.create n in
-    for i = 0 to n-1 do
-      t.[i] <- s.[n-1-i]
-    done;
-    t
+    String.mapi (fun i _ -> String.get s (n-1-i)) s
 
   let basename s =
     mirror (Chop.chop (Lexing.from_string (mirror s)))

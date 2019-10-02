@@ -433,7 +433,7 @@ end
 (* Name of the [Atom] module for a given sort. *)
 
 let atom sort =
-  String.capitalize sort
+  String.capitalize_ascii sort
 
 (* Name of the opaque abstraction type and of its fields and operations. *)
 
@@ -2300,7 +2300,7 @@ class virtual ['factor] omap params ty summands impl translate = object(self)
     ""
 
   method prefix data =
-    "self#" ^ (String.lowercase data)
+    "self#" ^ (String.lowercase_ascii data)
 
   method record_factor (x, label, _) =
     (* Each field is passed individually to the per-field method. *)
@@ -2334,7 +2334,7 @@ class virtual ['factor] omap params ty summands impl translate = object(self)
 	    inherit method_separator
 		
 	    method name =
-	      String.lowercase data
+	      String.lowercase_ascii data
 
 	    method header =
 	      sprintf "%s%s%s"
@@ -2533,7 +2533,7 @@ class virtual ['factor] ofold params ty summands impl translate = object(self)
   method data data pfs =
     (* Parameters are passed as-is to the per-data constructor method. *)
     let p (x, _, _) = x in
-    printf "      self#%s %s%s\n" (String.lowercase data) accuv (duple (List.map p pfs))
+    printf "      self#%s %s%s\n" (String.lowercase_ascii data) accuv (duple (List.map p pfs))
 
   method body =
 
@@ -2557,7 +2557,7 @@ class virtual ['factor] ofold params ty summands impl translate = object(self)
 	    inherit method_separator
 		
 	    method name =
-	      String.lowercase data
+	      String.lowercase_ascii data
 
 	    method header =
 	      sprintf "%s -> %s%s"
